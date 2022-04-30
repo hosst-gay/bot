@@ -8,7 +8,7 @@ import config
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix=">!", intents=intents)
-conn = sqlite3.connect('/var/www/hosst/website/schema/database.db')
+bot.conn = sqlite3.connect('/var/www/hosst/website/schema/database.db')
 
 @bot.event
 async def on_ready():
@@ -18,7 +18,11 @@ async def on_ready():
 async def main():
     async with bot:
         bot.wait_until_ready
-        
+        for filename in os.listdir('./cogs'):
+            if filename.endswith('.py'):
+                await bot.load_extension(f'cogs.{filename[:-3]}')
+            else:
+                print(f'Unable to load {filename[:-3]}')
         await bot.load_extension('jishaku')
         await bot.start(config.token)
 
