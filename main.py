@@ -9,6 +9,7 @@ import config
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix=">!", intents=intents)
 bot.conn = sqlite3.connect('/var/www/hosst/website/schema/database.db')
+bot.connembed = sqlite3.connect('/var/www/hosst/website/schema/embed.db')
 
 @bot.event
 async def on_ready():
