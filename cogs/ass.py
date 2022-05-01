@@ -27,6 +27,7 @@ class ass(commands.Cog):
 
         await ctx.send(embed=embed)
 
+
     @commands.command()
     async def geninv(self, ctx):
         async with aiohttp.ClientSession() as session:
