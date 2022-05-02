@@ -6,15 +6,24 @@ import asyncio
 import config
 
 
+class MyBot(commands.AutoShardedBot):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    async def on_ready(self):
+        print(f"Logged in as {self.user}")
+        print(self.shard_count)
+    
+
+
+
 intents = discord.Intents.all()
-bot = commands.Bot(command_prefix=">!", intents=intents)
+bot = MyBot(command_prefix=">!", intents=intents)
 bot.conn = sqlite3.connect('/var/www/hosst/website/schema/database.db')
 bot.connembed = sqlite3.connect('/var/www/hosst/website/schema/embed.db')
 bot.connimage = sqlite3.connect('/var/www/hosst/website/schema/image.db')
+bot.conninvites = sqlite3.connect('/var/www/hosst/website/schema/invites.db')
 
-@bot.event
-async def on_ready():
-    print(f"Logged in as {bot.user}")
     
 
 async def main():
