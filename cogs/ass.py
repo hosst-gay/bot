@@ -29,11 +29,13 @@ class ass(commands.Cog):
 
 
     @commands.command()
-    async def geninv(self, ctx):
+    async def geninv(self, ctx, *, username=None):
         async with aiohttp.ClientSession() as session:
             async with session.get("http://127.0.0.1:5123/gentoken") as request:
                 data = await request.json()
-                await ctx.send(data['invite'])      
+                await ctx.send(data['invite'])   
+                
+                   
                
 
 
