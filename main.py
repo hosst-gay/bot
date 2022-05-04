@@ -12,7 +12,10 @@ class MyBot(commands.AutoShardedBot):
 
     async def on_ready(self):
         print(f"Logged in as {self.user}")
-        print(self.shard_count)
+        if self.shard_count >= 1:
+            print(f'Running {self.shard_count} shard')
+        else:
+            print(f'Running {self.shard_count} shards')
     
 
 
