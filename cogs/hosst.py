@@ -39,20 +39,18 @@ class main_Cog(commands.Cog):
                 data = await request.json()
                 await ctx.send(data['invite'])   
 
-    def nsfwchannel(interaction: discord.Interaction) -> bool:
-        print(interaction.channel.is_nsfw())
-        if interaction.channel.is_nsfw(     ) is False:
-            return interaction.response.send_message("You cannot use this command outside a nsfw channel!", ephemeral=True)
+    def is_nsfw(interaction: discord.Interaction) -> bool:      
+        if interaction.channel.is_nsfw( ) is False:
+            return interaction.response.send_message("🔞 You cannot use this command outside a nsfw channel!", ephemeral=True)
         return interaction.channel.is_nsfw()
 
     @app_commands.command(description="NSFW neko commands!")
-    @app_commands.guilds(discord.Object(id=939293332243382342))
-    @app_commands.check(nsfwchannel)
+    @app_commands.check(is_nsfw)
     async def neko(self, interaction: discord.Interaction):
         async with aiohttp.ClientSession() as session:
             async with session.get("https://api.waifu.pics/nsfw/neko") as request:
                 data = await request.json()
-                embed = discord.Embed(description=f"**[URL To Image]({data['url']})**")
+                embed = discord.Embed(description=f"**[Image Link]({data['url']})**")
                 embed.set_image(url=data['url'])       
                 return await interaction.response.send_message(embed=embed)   
     

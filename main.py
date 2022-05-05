@@ -18,10 +18,12 @@ class MyBot(commands.AutoShardedBot):
             print(f'Running {self.shard_count} shards')
     
 
+  
+
 
 
 intents = discord.Intents.all()
-bot = MyBot(command_prefix=">!", intents=intents)
+bot = MyBot(command_prefix=">!", intents=intents, status=discord.Status.dnd,activity=discord.Activity(type=discord.ActivityType.watching, name='hosst.gay'))
 bot.conn = sqlite3.connect('/var/www/hosst/website/schema/database.db')
 bot.connembed = sqlite3.connect('/var/www/hosst/website/schema/embed.db')
 bot.connimage = sqlite3.connect('/var/www/hosst/website/schema/image.db')
@@ -31,7 +33,6 @@ bot.conninvites = sqlite3.connect('/var/www/hosst/website/schema/invites.db')
 
 async def main():
     async with bot:
-        bot.wait_until_ready
         for filename in os.listdir('./cogs'):
             if filename.endswith('.py'):
                 await bot.load_extension(f'cogs.{filename[:-3]}')
