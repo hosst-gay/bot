@@ -39,25 +39,6 @@ class main_Cog(commands.Cog):
                 data = await request.json()
                 await ctx.send(data['invite'])   
 
-    async def is_nsfw(interaction: discord.Interaction) -> bool:
-        if interaction.channel.is_nsfw():
-            return True
-        await interaction.response.send_message("🔞 You cannot use this command outside a nsfw channel!", ephemeral=True)
-        return False
-    @app_commands.command(description="Show NSFW neko pics! ")
-    @app_commands.check(is_nsfw)
-    @app_commands.choices(feature=[
-        Choice(name="neko", value="neko"),
-        Choice(name="waifu", value="waifu")
-    ])
-    async def neko(self, interaction: discord.Interaction, feature:Choice[str]):
-        async with aiohttp.ClientSession() as session:
-            async with session.get(f"https://api.waifu.pics/nsfw/{feature.name}") as request:
-                print(request.url)
-                data = await request.json()
-                embed = discord.Embed(description=f"**[Image Link]({data['url']})**")
-                embed.set_image(url=data['url'])       
-                return await interaction.response.send_message(embed=embed)   
     
 
     
@@ -89,7 +70,7 @@ class main_Cog(commands.Cog):
 
         await ctx.send(f"Synced the tree to {fmt}/{len(guilds)} guilds.")
 
-
+        
     
 async def setup(bot):
     await bot.add_cog(main_Cog(bot))

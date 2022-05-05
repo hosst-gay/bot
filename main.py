@@ -4,11 +4,12 @@ import discord
 from discord.ext import commands
 import asyncio
 import config
+from discord import app_commands
 
 
 class MyBot(commands.AutoShardedBot):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)   
 
     async def on_ready(self):
         print(f"Logged in as {self.user}")
@@ -26,7 +27,15 @@ bot.connembed = sqlite3.connect('/var/www/hosst/website/schema/embed.db')
 bot.connimage = sqlite3.connect('/var/www/hosst/website/schema/image.db')
 bot.conninvites = sqlite3.connect('/var/www/hosst/website/schema/invites.db')
 
-    
+@app_commands.context_menu(name='Translate with Google')
+@app_commands.guilds(discord.Object(id=939293332243382342))
+async def translate(interaction: discord.Interaction, message: discord.Message):
+    if not message.content:
+        await interaction.response.send_message('No content!', ephemeral=True)
+        return
+
+    text = "hi"# Exercise for the reader!
+    await interaction.response.send_message(text, ephemeral=True)
 
 async def main():
     async with bot:
