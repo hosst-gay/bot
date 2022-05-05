@@ -16,9 +16,6 @@ class MyBot(commands.AutoShardedBot):
             print(f'Running {self.shard_count} shard')
         else:
             print(f'Running {self.shard_count} shards')
-    
-
-  
 
 
 

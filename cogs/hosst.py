@@ -39,11 +39,11 @@ class main_Cog(commands.Cog):
                 data = await request.json()
                 await ctx.send(data['invite'])   
 
-    def is_nsfw(interaction: discord.Interaction) -> bool:      
-        if interaction.channel.is_nsfw( ) is False:
-            return interaction.response.send_message("🔞 You cannot use this command outside a nsfw channel!", ephemeral=True)
-        return interaction.channel.is_nsfw()
-
+    async def is_nsfw(interaction: discord.Interaction) -> bool:
+        if interaction.channel.is_nsfw():
+            return True
+        await interaction.response.send_message("🔞 You cannot use this command outside a nsfw channel!", ephemeral=True)
+        return False
     @app_commands.command(description="NSFW neko commands!")
     @app_commands.check(is_nsfw)
     async def neko(self, interaction: discord.Interaction):
@@ -54,6 +54,11 @@ class main_Cog(commands.Cog):
                 embed.set_image(url=data['url'])       
                 return await interaction.response.send_message(embed=embed)   
     
+    @neko.error
+    async def nsfwerror(self,interaction: discord.Interaction, error):
+        if isinstance(error, app_commands.errors.CheckFailure):
+            pass
+
     @commands.command() 
     @commands.is_owner()
     async def sync(self, ctx: commands.Context, guilds: commands.Greedy[discord.Object], spec: Optional[Literal["~"]] = None) -> None:
